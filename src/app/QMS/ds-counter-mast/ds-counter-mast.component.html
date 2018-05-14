@@ -1,0 +1,146 @@
+      
+<div class="container-fluid">
+  <div class="row">
+  </div>
+
+  <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
+            <i class="fa fa-folder-open"></i><b> Counter List</b> </h4> 
+          <div class="input-group pull-right"> 
+
+              <button class="btn btn-warning panel-title " 
+              (click)="refresh()"><i class="fa fa-refresh"></i> Refresh </button>  &nbsp;
+
+              <button class="btn btn-warning panel-title" (click)="print()">
+              <i class="fa fa-print"></i> Print </button>   &nbsp;
+
+              <button class="btn btn-warning panel-title" (click)="tableToExcel('counter', 'Counter Details')" >
+                  <span class="glyphicon glyphicon-export"></span>Export to excel </button> 
+
+          </div> 
+        </div>
+       
+
+      <div class="panel-body">
+          
+      <table  class="table table-scroll table-striped table-bordered table-hover table-condensed">
+        <thead>
+          <tr style="color:white;background-color:rgb(135, 163, 216)">
+        
+          <th > CounterId</th> 
+          <th > CounterName</th> 
+          <th > CounterGroupId</th> 
+          <th > ShortName</th> 
+          <th > ActiveYn</th> 
+          <th > CounterNameArabic</th> 
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let req of modelColl">
+                  <td > {{req.counterId}}</td>
+                  <td > {{req.counterName}}</td>
+                  <td > {{req.counterGroupId}}</td>
+                  <td > {{req.shortName}}</td>
+                  <td > {{req.activeYn}}</td>
+                  <td > {{req.counterNameNl}}</td>
+                  <td>
+                    <div class="input-group pull-right">
+                      <button class="btn btn-info" (click)="editItem(req)">
+                        <i class="fa fa-pencil-square-o"></i>
+                      </button>&nbsp;
+                      <button class="btn btn-danger" (click)="removeItem(req)">
+                        <i class="fa fa-trash-o"></i>
+                      </button>
+                    </div>
+                  </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+     
+  </div>
+
+    <!--hidden div -->
+    <div id="printSectioncounter" style="display:none;" >
+      <div class="panel-body">
+        <table id="counter" class="table table-scroll table-striped table-bordered table-hover table-condensed">
+        <thead>
+          <tr style="color:white;background-color:rgb(135, 163, 216)">
+            <th > CounterId</th> 
+            <th > CounterName</th> 
+            <th > CounterGroupId</th> 
+            <th > ShortName</th> 
+            <th > ActiveYn</th> 
+            <th > CounterNameArabic</th> 
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let req of modelColl">
+              <td > {{req.counterId}}</td>
+              <td > {{req.counterName}}</td>
+              <td > {{req.counterGroupId}}</td>
+              <td > {{req.shortName}}</td>
+              <td > {{req.activeYn}}</td>
+              <td > {{req.counterNameNl}}</td>
+            </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+    <!--hidden div -->
+
+  <div class="panel panel-default">
+   <div class="panel-heading clearfix">
+      <label *ngIf= "modelItem.counterId; else elseBlock" ><i class="fa fa-pencil-square-o"></i> EDIT MODE  </label>
+          <ng-template #elseBlock><i class="fa fa-plus-square-o"></i>ADD MODE</ng-template>
+          <button class="btn btn-warning panel-title pull-right" 
+          (click)="clearModel()"><i class="fa fa-eraser"></i> CLEAR </button>   
+    </div>
+    <div class="panel-body"> 
+           <form (ngSubmit)="saveInfo()" #heroForm="ngForm" autocomplete="off">
+             <div class="table">
+
+                        <div class="table-row-head">
+                           <div class="table-head">CounterId</div>  
+                           <div class="table-cell"><input  type="text" class="form-control"  type="text" id="CounterId" readonly [(ngModel)]="modelItem.counterId" name="counterId" #name="ngModel"></div>                                                    
+                        </div>
+
+                        <div class="table-row-head">
+                           <div class="table-head">CounterName</div>  
+                           <div class="table-cell"><input  type="text" class="form-control"  type="text" id="CounterName"  [(ngModel)]="modelItem.counterName"  required name="counterName" #name="ngModel" ></div>                                                    
+                        </div>
+
+                        <div class="table-row-head">
+                           <div class="table-head">CounterGroupId</div>  
+                           <div class="table-cell"><input  type="number" class="form-control"   id="CounterGroupId"  [(ngModel)]="modelItem.counterGroupId" name="counterGroupId" #name="ngModel"></div>                                                    
+                        </div>
+
+                        <div class="table-row-head">
+                           <div class="table-head">ShortName</div>  
+                           <div class="table-cell"><input  type="text" class="form-control"   type="text" id="ShortName"  [(ngModel)]="modelItem.shortName" name="shortName" #name="ngModel" ></div>                                                    
+                        </div>
+
+                        <div class="table-row-head">
+                          <div class="table-head">ActiveYn</div>  
+                          <div class="table-cell"><input type="checkbox" (change)="modelItem.activeYn = $event.target.checked ? 'Y' : 'N'" [checked]="modelItem.activeYn == 'Y'" /></div>                                                    
+                        </div>
+
+                        <div class="table-row-head">
+                          <div class="table-head">CounterNameArabic</div>  
+                          <div class="table-cell"><input  type="text" style="text-align:right;" class="form-control"  type="text" id="CounterNameNl"  [(ngModel)]="modelItem.counterNameNl" name="counterNameNl" #name="ngModel" ></div>                                                    
+                        </div>
+
+                        <div class="table-row">                          
+                            <div class="table-cell">
+						                <button class="btn btn-success" type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid"><i class="fa fa-floppy-o" ></i> SAVE </button>       
+						                </div>
+                        </div>    
+
+                                                                          
+            </div> 
+          </form>
+    </div>
+  </div>
+</div>
+

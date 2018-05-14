@@ -1,0 +1,214 @@
+      
+      <div class="container-fluid">
+    
+        <div class="panel panel-default">
+            <!-- angular templating -->
+            
+                <!-- this is where content will be injected 
+                <div class="panel panel-default">-->
+                <div class="panel-heading clearfix">
+                    <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
+                      <i class="fa fa-search"></i><b>Search </b></h4>
+                      <div class="input-group pull-right">
+                    </div>
+                    </div>
+                  <br/>
+            
+
+                        <form  class="form-inline"  (ngSubmit)="listTokenSummary()" #myLogin="ngForm">
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-4" for="fromTime">From Date</label>
+                              <div class="col-sm-8">
+                                <input  type="date" id="date"   class="form-control" id="fromTime" 
+                          [ngModel] ="searchModel.fromTime" (ngModelChange)="searchModel.fromTime = $event" 
+                          name="fromTime" #name="ngModel" > 
+                              </div>
+                            </div>
+              
+                            <div class="form-group">
+                              <!--<div class="col-sm-offset-2 col-sm-2">-->
+                                <label class="control-label col-sm-4" for="toTime">To Date</label>
+                                <div class="col-sm-8">
+                                <input  id="date" type="date"  class="form-control" id="toTime"  [(ngModel)]="searchModel.toTime" name="toTime"
+                                #name="ngModel"  > 
+                            </div>
+                            </div>
+              
+                            <div class="form-group">        
+                              <div class="col-sm-offset-2 col-sm-10">
+                                <button  class="btn btn-info " (click)="listTokenSummary()">Search</button>
+                              </div>
+                            </div>
+            
+                            <div class="form-group">        
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button class="btn btn-info" (click)="clearSearch()">Clear</button>
+                                </div>
+                            </div>
+            
+                        </form>&nbsp;
+
+               
+    
+           
+            <!-- /angular templating -->
+     
+  
+  <div class="row">
+  </div>
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading clearfix">
+      <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><i class="fa fa-folder-open">
+        </i> <b>Service Summary Report</b></h4>  
+        <div class="input-group pull-right">
+      
+
+      <button class="btn btn-warning panel-title" (click)="print()">
+      <i class="fa fa-print"></i> Print </button>   &nbsp;
+
+     <button class="btn btn-warning panel-title"  (click)="tableToExcel('service-Summary','Service Summary Report')" >
+        <span class="glyphicon glyphicon-export"></span>Export to excel </button> 
+         <!--<a href="#" class="btn btn-info btn-lg"  (click)="tableToExcel('token','Token Details')">
+          </a>-->
+          
+      </div> 
+    </div>
+
+
+   <div id="service-Summary">
+   <div class="panel-body">
+       <div class="col-xs-8 col-xs-offset-2 well">
+            <table id="service-Summary" class="table table-scroll table-striped table-bordered table-hover table-condensed">
+                <thead>
+                    <tr style="color:white;background-color:rgb(135, 163, 216)">
+                  
+                       <th >Service</th> 
+                       <th >Tokens Taken</th> 
+                       <th >Tokens Processed</th> 
+                       <th >Total Process Mints</th> 
+                       <th >Total Waiting Mints</th> 
+                       <th >Median Process Mints</th> 
+                        <th > Median Waiting Mints </th>                       
+                   </tr>                  
+                  </thead>
+                  <tbody>
+                      
+                                  <tr *ngFor="let reqDetail of tokensummaryColl" (click)="selectedService(reqDetail)" [class.active]="reqDetail == selectedRow"> 
+                                          <td> {{reqDetail.service}}</td>
+                                          <td > {{reqDetail.tokensTaken}}</td>
+                                          <td > {{reqDetail.tokensCompleted}}</td>
+                                          <td > {{reqDetail.totProcessMts}}</td>
+                                          <td > {{reqDetail.totWaitingMts}}</td>
+                          
+                                          <td > {{reqDetail.medianProcessMts}}</td>
+
+                                          <td > {{reqDetail.medianWaitingMts}}</td>
+                                         
+                                     
+                                         
+                                         
+                                   
+                                      </tr>
+                                    
+                                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+
+
+    </div>
+    
+       
+ 
+
+
+
+                        
+          
+</div>
+
+
+<div class="panel panel-default">
+
+    <div class="panel-heading clearfix">
+      <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><i class="fa fa-folder-open">
+        </i> <b>Service Detail Report</b></h4>  
+        <div class="input-group pull-right">
+      
+
+      <button class="btn btn-warning panel-title" (click)="printServicedetail()">
+      <i class="fa fa-print"></i> Print </button>   &nbsp;
+
+     <button class="btn btn-warning panel-title"  (click)="tableToExcel('service-Summary-detail','Service Summary Detail Report')" >
+        <span class="glyphicon glyphicon-export"></span>Export to excel </button> 
+         <!--<a href="#" class="btn btn-info btn-lg"  (click)="tableToExcel('token','Token Details')">
+          </a>-->
+          
+      </div> 
+    </div>
+
+
+   <div id="service-Summary-detail">
+   <div class="panel-body">
+       <div class="col-xs-8 col-xs-offset-2 well">
+            <div class="col-sm-10">
+                    <h5 style="color:purple" > <b>&nbsp; {{service}}</b> </h5>
+                </div>
+            <table id="service-Summary-detail" class="table table-scroll table-striped table-bordered table-hover table-condensed">
+                <thead>
+                    <tr style="color:white;background-color:rgb(135, 163, 216)">
+                        <th >Token No</th> 
+                        <th >GeneratedTime</th> 
+                       <th >StartTime</th> 
+                       <th >EndTime</th> 
+                       
+                       <th >ProcessMts</th> 
+                       <th >WaitingMts</th> 
+                        <th>TokenStatus </th>                       
+                   </tr>                  
+                  </thead>
+                  <tbody>
+                      
+                                  <tr *ngFor="let req of servicesummaryDetail"> 
+                                        <td > {{req.tokenNo}}</td>    
+                                        <td > {{req.generatedTime|date:'dd/MM/yyyy hh:mm:ss'}}</td>
+                                        <td> {{req.startTime|date:'dd/MM/yyyy hh:mm:ss'}}</td>
+                                        <td > {{req.endTime|date:'dd/MM/yyyy hh:mm:ss'}}</td>
+                                          
+                                          <td > {{req.processMts}}</td>
+                          
+                                          <td > {{req.waitingMts}}</td>
+
+                                          <td > {{req.statusDesc}}</td>
+                                         
+                                     
+                                         
+                                         
+                                   
+                                      </tr>
+                                    
+                                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+
+
+    </div>
+    
+       
+ 
+
+
+
+                        
+          
+</div>
+
+</div>

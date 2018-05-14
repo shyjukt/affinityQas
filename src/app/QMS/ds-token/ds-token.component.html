@@ -1,0 +1,361 @@
+      
+      <div class="container-fluid">
+    
+        <div class="panel panel-default">
+            <!-- angular templating -->
+            
+                <!-- this is where content will be injected 
+                <div class="panel panel-default">-->
+                <div class="panel-heading clearfix">
+                    <h4 class="panel-title pull-left" style="padding-top: 7.5px;">
+                      <i class="fa fa-search"></i><b>Search </b></h4>
+                      <div class="input-group pull-right">
+                    </div>
+                    </div>
+                  <br/>
+               <!-- <div class="panel-body">-->
+                    <div class="col-lg-12" style="padding-bottom: 10px;">
+                        <div class="col-md-4 col-sm-4">
+                            <form class="form-horizontal" (ngSubmit)="searchToken()" #myLogin="ngForm">
+
+                                
+                  <div class="form-group">
+                      <label class="control-label col-sm-4" for="tokenNo">Token No</label>
+                      <div class="col-sm-8">
+                        <input  type="number" class="form-control" id="tokenNo"  [(ngModel)]="searchModel.tokenNo" name="tokenNo"
+                        #name="ngModel" >
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" 
+                        for="counterGroupName"  >Group Name</label>
+                        <div class="col-sm-8">                          
+                            <select class="form-control" [(ngModel)]="searchModel.counterGroupId" 
+                             name="counterGroupName" #name="ngModel" > 
+                                <option  [ngValue]="undefined">---Please select---</option>
+                                <option  *ngFor="let obj of counterGroups" [ngValue]="obj.counterGroupId" >
+                                  {{obj.counterGroupName}}</option>
+                            </select> 
+                          </div>
+                      </div>    
+                               
+                            </form>
+                        </div>
+                        <!-- second column start -->
+                        <div class="col-md-4 col-sm-4">
+                            <form class="form-horizontal" (ngSubmit)="searchToken()" #myLogin="ngForm">
+
+                          <div class="form-group">
+                      <label class="control-label col-sm-4" for="fromTime">From Date</label>
+                      <div class="col-sm-8">
+                          
+                         <input  type="date" id="date"   class="form-control" id="fromTime" 
+                          [ngModel] ="searchModel.fromTime" (ngModelChange)="searchModel.fromTime = $event" 
+                          name="fromTime" #name="ngModel" > 
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="toTime">To Date</label>
+                        <div class="col-sm-8">
+                            
+                          <input  id="date" type="date"  class="form-control" id="toTime"  [(ngModel)]="searchModel.toTime" name="toTime"
+                          #name="ngModel"  > 
+                        </div>
+                      </div>
+                                
+                            </form>
+                        </div>
+                        <!-- end second column  -->
+                        <!-- Third column start -->
+                        <div class="col-md-4 col-sm-4">
+                            <form class="form-horizontal" (ngSubmit)="searchToken()" #myLogin="ngForm">
+
+                                <div class="form-group">
+                                  <label class="control-label col-sm-4" for="extRefId">Ref Id</label>
+                                    <div class="col-sm-8">
+                                      <input  type="text" class="form-control" id="extRefId"  [(ngModel)]="searchModel.extRefId" name="extRefId"
+                                        #name="ngModel" >
+                                    </div>
+                                </div>
+          
+                           
+                                              
+                                  <div class="form-group">
+                                    <label class="control-label col-sm-4" 
+                                    for="Token Status">Token Status</label>
+                                    <div class="col-sm-8">                                      
+                                        <select class="form-control" [(ngModel)]="searchModel.tokenStatus"  
+                                        name="tokenStatus" #name="ngModel">
+                                           <!-- <option [value]="null">Nothing selected</option>-->
+                                            <option  [ngValue]="undefined">---Please select---</option>
+                                            <option  *ngFor="let sts of tokenStatus" 
+                                            [ngValue]="sts.statusCode" >{{sts.statusDesc}}</option>
+                                        </select>
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group" id="btn">
+                                  <button  class="btn btn-info " (click)="searchToken(searchModel)">Search</button> &nbsp;
+                                  <button class="btn btn-info" (click)="clearSearch()">Clear</button>
+                                  </div>
+                            </form>
+                        </div>
+                        
+                </div>
+    
+    
+           
+            <!-- /angular templating -->
+     
+  
+  <div class="row">
+  </div>
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading clearfix">
+      <h4 class="panel-title pull-left" style="padding-top: 7.5px;"><i class="fa fa-folder-open">
+        </i> <b>Token List</b></h4>  
+        <div class="input-group pull-right">
+      <button class="btn btn-warning panel-title " 
+      (click)="refresh()"><i class="fa fa-refresh"></i> Refresh </button>&nbsp;
+
+      <button class="btn btn-warning panel-title" (click)="print()">
+      <i class="fa fa-print"></i> Print </button>   &nbsp;
+
+     <button class="btn btn-warning panel-title"  (click)="tableToExcel('token','Token Details')" >
+        <span class="glyphicon glyphicon-export"></span>Export to excel </button> 
+         <!--<a href="#" class="btn btn-info btn-lg"  (click)="tableToExcel('token','Token Details')">
+          </a>-->
+          
+      </div> 
+    </div>
+
+
+   <div id="printSection">
+   <div class="panel-body">
+       <div class="col-xs-8 col-xs-offset-2 well">
+            <table id="token" class="table table-scroll table-striped table-bordered table-hover table-condensed">
+                <thead>
+                    <tr style="color:white;background-color:rgb(135, 163, 216)">
+                  
+                       <th > TokenId</th> 
+                       <th > CounterGroupName</th> 
+                       <th > GeneratedTime</th> 
+                       <th > TokenNo</th> 
+                       <th > TokenStatus</th> 
+                       <th > Ref Id</th> 
+                                <th > Token Details </th>                       
+                   </tr>                  
+                  </thead>
+                  <tbody>
+                      
+                                  <tr *ngFor="let req of modelColl; let i = index" (click)="selectedId(req.tokenId)" (click)="setClickedRow(i)" [class.active]="i == selectedRow"> 
+                                          <td> {{req.tokenId}}</td>
+                                          <td > {{req.dsCounterGroup.counterGroupName}}</td>
+                                          <td > {{req.generatedTime |date:'dd/MM/yyyy hh:mm:ss'}}</td>
+                                          <td > {{req.tokenNo}}</td>
+                                          <td > {{req.dsTokenStatus.statusDesc}}</td>
+                          
+                                          <td > {{req.extRefId}}</td>
+                                          <!--<td > {{req.prevTokenId}}</td>
+                                          <td > {{req.tokenSequence}}</td>
+                                          <td > {{req.counterId}}</td>
+                                          <td > {{req.entryFlag}}</td>
+                                          <td > {{req.extRefDisplayName}}</td>
+                                          <td > {{req.tokenLang}}</td>-->
+                                     
+                                         
+                                                <td>
+                                                <ul>
+                                                    <li  *ngFor="let obj of req.dsCounterTokenLinkColl">
+                                                       <div>{{obj.dsCounterMast.counterName}}</div>
+                                                       <div>{{obj.startTime |date:'hh:mm:ss'}} to {{obj.endTime |date:'hh:mm:ss'}}</div>
+                                                       
+                                                </li>
+                                              </ul>
+                                          </td>
+                   
+                                        <!--<td>
+                                          <div class="input-group pull-right">
+                                            
+                                            <button class="btn btn-info" (click)="editItem(req)">
+                                              <i class="fa fa-pencil-square-o"></i>
+                                            </button>&nbsp;
+                                            <button class="btn btn-danger" (click)="removeItem(req)">
+                                              <i class="fa fa-trash-o"></i>
+                                            </button>
+                                          </div>
+                                          
+                                        </td>-->
+                                      </tr>
+                                    
+                                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+    
+       
+ 
+
+
+  <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+         
+
+        <!-- Trigger the modal with a button :change token group -->
+          <button  type="button"  class="btn btn-info " data-toggle="modal" data-target="#myModal"><i class="fa fa fa-group"></i>Change Group</button> &nbsp;
+         
+          <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Please select any Counter Group service for Token {{this.id}}</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-lg-12" >
+                          <div class="col-md-6 col-sm-6 angular-with-newlines" 
+                          *ngFor="let ser of counterGroups">
+                            <button id="{{ser.counterGroupId}}" type="button" class="col-md-6 col-sm-6 btn btn-primary btn-lg raised btn-block bgcolor btn-height" (click)="selectedGroup(ser.counterGroupId)">{{ser.counterGroupName}}</button>
+                          </div>
+                        </div>
+                        
+                      </div>
+          
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success"  (click)="changeTokenGroup()"  >Change</button>
+                  <button type="button" class="btn " data-dismiss="modal">Close</button>
+                </div>
+  
+              </div>
+              
+            </div>
+          </div>
+
+           <!-- Trigger the modal with a button add patient id -->
+           <button  type="button"  class="btn btn-info " data-toggle="modal" data-target="#myModalpatientid"><i class="fa fa fa-edit"></i>Add/Change Ref Id</button> &nbsp;
+           
+            <div class="modal fade" id="myModalpatientid" role="dialog">
+              <div class="modal-dialog ">
+              
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Please add Ref Id for Token {{this.id}}</h4>
+                  </div>
+                  <div class="modal-body">
+  
+                      <p>
+                          Enter Ref Id: <input type="text" class="form-control"  [(ngModel)]="paramextrefitem.extRefId" />
+                      </p>
+          
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-success"  (click)="changePatientId()">Add/Change</button>
+                    <button type="button" class="btn " data-dismiss="modal">Close</button>
+                  </div>
+    
+                </div>
+                
+              </div>
+            </div>
+          
+          <button class="btn btn-success" (click)="remind()"><i class="fa fa-bell-o"></i>Remind</button>
+
+          <button class="btn btn-success" (click)="recallToken()" ><i class="fa fa-caret-square-o-right"></i>ReCall</button>
+
+          <button class="btn btn-success" (click)="holdToken()"><i class="fa fa-object-group"></i>Hold</button>
+          <button class="btn btn-success" (click) ="unHoldToken()" ><i class="fa fa-object-ungroup"></i>Un Hold</button>
+
+          <button class="btn btn-danger" (click)="cancellToken()"><i class="fa fa-window-close-o"></i>Cancel</button>
+          <button class="btn btn-danger" (click)="uncancellToken()" ><i class="fa fa-folder-open-o"></i>UnCancel</button>
+          
+       </div>
+       </div>
+
+ <!-- <div class="panel panel-default">
+   <div class="panel-heading clearfix">
+      
+       <label *ngIf= "modelItem.tokenId; else elseBlock" ><i class="fa fa-pencil-square-o"></i> EDIT MODE  </label>
+          <ng-template #elseBlock><i class="fa fa-plus-square-o"></i>ADD MODE</ng-template>
+          <button class="btn btn-warning panel-title pull-right" 
+          (click)="clearModel()"><i class="fa fa-eraser"></i> CLEAR </button>   
+    </div>
+    <div class="panel-body"> 
+           <form (ngSubmit)="saveInfo()" #heroForm="ngForm">
+             <div class="table">
+
+                        <div class="table-row-head">
+                           <div class="table-head">tokenId</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="tokenId"  type="text" id="TokenId"  [(ngModel)]="modelItem.tokenId" name="tokenId" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">counterGroupName</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="counterGroupName"  type="text" id="counterGroupName"  [(ngModel)]="modelItem.dsCounterGroup.counterGroupName" name="counterGroupName" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">generatedTime</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="generatedTime"  type="text" id="GeneratedTime"  [(ngModel)]="modelItem.generatedTime" name="generatedTime" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">tokenNo</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="tokenNo"  type="text" id="TokenNo"  [(ngModel)]="modelItem.tokenNo" name="tokenNo" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">tokenStatus</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="tokenStatus"  type="text" id="TokenStatus"  [(ngModel)]="modelItem.tokenStatus" name="tokenStatus" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">extRefId</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="extRefId"  type="text" id="ExtRefId"  [(ngModel)]="modelItem.extRefId" name="extRefId" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">prevTokenId</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="prevTokenId"  type="text" id="PrevTokenId"  [(ngModel)]="modelItem.prevTokenId" name="prevTokenId" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">tokenSequence</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="tokenSequence"  type="text" id="TokenSequence"  [(ngModel)]="modelItem.tokenSequence" name="tokenSequence" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">counterId</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="counterId"  type="text" id="CounterId"  [(ngModel)]="modelItem.counterId" name="counterId" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">entryFlag</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="entryFlag"  type="text" id="EntryFlag"  [(ngModel)]="modelItem.entryFlag" name="entryFlag" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">extRefDisplayName</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="extRefDisplayName"  type="text" id="ExtRefDisplayName"  [(ngModel)]="modelItem.extRefDisplayName" name="extRefDisplayName" #name="ngModel"></div>                                                    
+                         </div>
+                        <div class="table-row-head">
+                           <div class="table-head">tokenLang</div>  
+                           <div class="table-cell"><input  type="text" class="form-control" placeholder="tokenLang"  type="text" id="TokenLang"  [(ngModel)]="modelItem.tokenLang" name="tokenLang" #name="ngModel"></div>                                                    
+                         </div>
+
+                         <div class="table-row">                          
+                            <div class="table-cell">
+						                <button class="btn btn-success" type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid"><i class="fa fa-floppy-o" ></i> SAVE </button>       
+						                </div>
+                         </div>    
+
+                                                                          
+              </div> 
+           
+      </form>
+    </div>
+  </div>-->
+</div>
+
+</div>
