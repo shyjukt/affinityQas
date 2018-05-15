@@ -46,12 +46,16 @@ import { myService } from 'app/QAS/services/QaEventDetails.Services';
     HomeComponent,
     LoginComponent,
     DesktopComponent
+   
     , QaNewEventComponent
-    , QaEventListComponent    
+    , QaEventListComponent
+    
     , QaCategoryComponent
     , QaSubCategoryComponent
     , QaCategoryUsersComponent
-    , QaLocationUsersComponent        
+    , QaLocationUsersComponent
+    
+    
   ],
   imports: [
     BrowserModule,
@@ -68,6 +72,7 @@ import { myService } from 'app/QAS/services/QaEventDetails.Services';
     CollapseModule.forRoot(),
     AlertModule.forRoot(),
     AccordionModule.forRoot()
+
   ],
   providers: [
     AuthGuard,
@@ -82,3 +87,4 @@ import { myService } from 'app/QAS/services/QaEventDetails.Services';
  
 })
 export class AppModule { }
+
