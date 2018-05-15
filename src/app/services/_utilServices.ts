@@ -77,7 +77,7 @@ export class ErpServices {
     }
 
   }
-  //console.log(this.Process)
+
   return this.Process;
 }
   
