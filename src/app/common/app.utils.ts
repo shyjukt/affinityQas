@@ -23,10 +23,10 @@ export const SESSION_EXPIRED: string = 'Session timed out';
 export const INVALID_TOKEN: string = 'Invalid Token';
 
 //Common http root api
-//export const BACKEND_API_URL:string = 'http://cvt-affinityapi.7e14.starter-us-west-2.openshiftapps.com/';
+export const BACKEND_API_URL:string = 'http://cvt-affinityapi.7e14.starter-us-west-2.openshiftapps.com/';
 
 //export const BACKEND_API_URL:string = 'http://localhost:8091/';
-export const BACKEND_API_URL:string = 'http://172.16.60.100:8091/';
+//export const BACKEND_API_URL:string = 'http://172.16.60.100:8091/';
 
 // export const BACKEND_API_URL:string = 'http://afnitynahla.ddns.net:8088/cvt/';
 //export const BACKEND_API_URL:string = 'http://192.168.1.101:8091/';
