@@ -8,8 +8,6 @@ export const contentHeaders = new Headers();
 contentHeaders.append('Content-Type', 'application/json');
 export const menuHeaders = new Headers();
 
-export const SYSTEM_ID: number = 1;
-
 export const USERNAME_EMPTY: string = 'Username cannot be empty';
 export const PASSWORD_EMPTY: string = 'Password cannot be empty';
 export const INVALID_CREDENTIALS: string = 'Invalid Credentials!';
